@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.mapper.ConsumerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.feng.pojo.Consumer">
+        <id column="consumer_id" property="consumerId" />
+        <result column="consumer_pwd" property="consumerPwd" />
+        <result column="consumer_name" property="consumerName" />
+        <result column="consumer_telephone" property="consumerTelephone" />
+        <result column="address1" property="address1" />
+        <result column="address2" property="address2" />
+        <result column="address3" property="address3" />
+        <result column="isvip" property="isvip" />
+        <result column="consumer_wallet" property="consumerWallet" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        consumer_id, consumer_pwd, consumer_name, consumer_telephone, address1, address2, address3, isvip, consumer_wallet
+    </sql>
+
+</mapper>

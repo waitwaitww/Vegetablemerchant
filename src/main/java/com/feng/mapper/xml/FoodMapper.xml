@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.mapper.FoodMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.feng.pojo.Food">
+        <id column="food_id" property="foodId" />
+        <result column="type_id" property="typeId" />
+        <result column="food_name" property="foodName" />
+        <result column="food_alias" property="foodAlias" />
+        <result column="food_specifications" property="foodSpecifications" />
+        <result column="food_state" property="foodState" />
+        <result column="manufacture_date" property="manufactureDate" />
+        <result column="valid_date" property="validDate" />
+        <result column="is_seasonal" property="isSeasonal" />
+        <result column="unit_price" property="unitPrice" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        food_id, type_id, food_name, food_alias, food_specifications, food_state, manufacture_date, valid_date, is_seasonal, unit_price
+    </sql>
+
+</mapper>
