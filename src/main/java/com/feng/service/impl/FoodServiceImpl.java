@@ -101,4 +101,9 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
         wrapper.like("food_name",foodName).or().like("food_alias", foodName);
         return foodMapper.selectList(wrapper);
     }
+
+    @Override
+    public int setDefualtIamge(String foodId, String imageUrl) {
+        return foodMapper.setDefualtIamge(foodId,imageUrl);
+    }
 }

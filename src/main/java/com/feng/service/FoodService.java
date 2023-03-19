@@ -54,4 +54,7 @@ public interface FoodService extends IService<Food> {
     //根据菜品名查询已上架的菜品
     List<Food> queryGrFooodByName(String foodName);
 
+    //将某图片设置为默认图片
+    int setDefualtIamge(String foodId,String imageUrl);
+
 }

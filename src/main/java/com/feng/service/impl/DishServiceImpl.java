@@ -42,4 +42,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     public String queryNameById(String dishId) {
         return dishMapper.selectById(dishId).getDishName();
     }
+
+    @Override
+    public int setDefualtIamge(String dishId, String imageUrl) {
+        return dishMapper.setDefualtIamge(dishId,imageUrl);
+    }
 }

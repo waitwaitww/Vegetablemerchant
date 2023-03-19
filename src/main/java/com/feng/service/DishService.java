@@ -25,4 +25,7 @@ public interface DishService extends IService<Dish> {
     //根据id查询成品菜
     String queryNameById(String dishId);
 
+    //将某图片设置为默认图片
+    int setDefualtIamge(String dishId,String imageUrl);
+
 }

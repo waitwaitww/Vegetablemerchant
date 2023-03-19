@@ -37,4 +37,7 @@ public interface FoodMapper extends BaseMapper<Food> {
     @Select("select * from food where food_id = (select food_id from food_dish where dish_id = #{dishId})")
     List<Food> queryFoodByDish(@Param("dishId") String dishId);
 
+    @Update("update food set default_image = #{imageUrl} where food_id = {foodId}")
+    int setDefualtIamge(@Param("foodId") String foodId, @Param("imageUrl") String imageUrl);
+
 }

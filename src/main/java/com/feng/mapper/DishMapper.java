@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     @Select("select * from dish where dish_id = (select dish_id from food_dish where food_id = #{foodId})")
     List<Dish> queryDishByFood(@Param("foodId") String foodId);
+
+    @Update("update dish set default_image = #{imageUrl} where dish_id = {dishId}")
+    int setDefualtIamge(@Param("dishId") String dishId, @Param("imageUrl") String imageUrl);
+
 
 }
