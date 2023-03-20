@@ -29,7 +29,7 @@ public class Staff implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "staff_id", type = IdType.AUTO)
+    @TableId(value = "staff_id", type = IdType.INPUT)
     private String staffId;
 
     private String workTypeId;
@@ -49,6 +49,7 @@ public class Staff implements Serializable {
     private String sex;
 
     private String staffTelephone;
+
 
 
 }

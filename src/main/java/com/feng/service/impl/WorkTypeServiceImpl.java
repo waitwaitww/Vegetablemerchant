@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * work_type 服务实现类
@@ -30,5 +32,10 @@ public class WorkTypeServiceImpl extends ServiceImpl<WorkTypeMapper, WorkType> i
     @Override
     public String queryWorkTypeName(String workId) {
         return workTypeMapper.selectById(workId).getWorkTypeName();
+    }
+
+    @Override
+    public List<WorkType> queryAllWorkType() {
+        return workTypeMapper.selectList(null);
     }
 }
