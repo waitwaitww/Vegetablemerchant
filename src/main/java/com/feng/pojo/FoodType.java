@@ -28,7 +28,7 @@ public class FoodType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "type_id", type = IdType.AUTO)
+    @TableId(value = "type_id", type = IdType.ID_WORKER_STR)
     private String typeId;
 
     private String typeName;

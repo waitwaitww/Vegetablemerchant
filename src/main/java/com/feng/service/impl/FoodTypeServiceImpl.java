@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -36,5 +38,10 @@ public class FoodTypeServiceImpl extends ServiceImpl<FoodTypeMapper, FoodType> i
     @Override
     public int delete(String typeId) {
         return foodTypeMapper.deleteById(typeId);
+    }
+
+    @Override
+    public List<FoodType> queryAllFoodType() {
+        return foodTypeMapper.selectList(null);
     }
 }

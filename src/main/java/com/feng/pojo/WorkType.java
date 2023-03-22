@@ -28,7 +28,7 @@ public class WorkType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "work_type_id", type = IdType.AUTO)
+    @TableId(value = "work_type_id", type = IdType.ID_WORKER_STR)
     private String workTypeId;
 
     private String workTypeName;

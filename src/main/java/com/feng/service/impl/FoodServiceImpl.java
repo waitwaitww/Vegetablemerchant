@@ -89,6 +89,20 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
     }
 
     @Override
+    public List<Food> queryAllSeaFood() {
+        QueryWrapper<Food> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_seasonal",1 );
+        return foodMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<Food> queryGrSeaFood() {
+        QueryWrapper<Food> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_seasonal",1 ).eq("food_state",0);
+        return foodMapper.selectList(wrapper);
+    }
+
+    @Override
     public List<Food> queryFoodByName(String foodName) {
         QueryWrapper<Food> wrapper = new QueryWrapper<>();
         wrapper.like("food_name",foodName).or().like("food_alias", foodName).eq("food_state",0);

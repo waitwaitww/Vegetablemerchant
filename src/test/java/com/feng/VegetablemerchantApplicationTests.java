@@ -4,9 +4,11 @@ package com.feng;
 import cn.hutool.core.date.DateUtil;
 import com.feng.pojo.Food;
 import com.feng.pojo.Staff;
+import com.feng.pojo.WorkType;
 import com.feng.service.FoodService;
 import com.feng.service.StaffService;
 import com.feng.service.SystemAdminService;
+import com.feng.service.WorkTypeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +45,19 @@ class VegetablemerchantApplicationTests {
 
     }
 
+
+    @Autowired
+    @Qualifier("WorkTypeServiceImpl")
+    private WorkTypeService workTypeService;
+
+    @Test
+    void test1(){
+        WorkType workType = new WorkType();
+        workType.setWorkTypeName("经理");
+        workTypeService.addWorkType(workType);
+        List<WorkType> workTypes = workTypeService.queryAllWorkType();
+        workTypes.forEach(System.out::println);
+    }
 
 
 }

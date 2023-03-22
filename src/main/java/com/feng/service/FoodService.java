@@ -48,6 +48,12 @@ public interface FoodService extends IService<Food> {
     //查询某类已上架的菜品
     List<Food> queryGrFoodByType(String typeId);
 
+    //查询所有应季菜品
+    List<Food> queryAllSeaFood();
+
+    //查询所有已上架的应季菜品
+    List<Food> queryGrSeaFood();
+
     //根据菜品名查询菜品
     List<Food> queryFoodByName(String foodName);
 
