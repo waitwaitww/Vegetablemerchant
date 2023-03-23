@@ -45,4 +45,7 @@ public interface StaffService extends IService<Staff> {
     //将某个员工的订单量清零
     int clearStaffOrderById(String staffId);
 
+    //根据id查询店长密码
+    String queryPwdById(String staffId);
+
 }

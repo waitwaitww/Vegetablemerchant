@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * dish 服务实现类
@@ -41,6 +43,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     @Override
     public String queryNameById(String dishId) {
         return dishMapper.selectById(dishId).getDishName();
+    }
+
+    @Override
+    public List<Dish> queryAllDish() {
+        return dishMapper.selectList(null);
     }
 
     @Override

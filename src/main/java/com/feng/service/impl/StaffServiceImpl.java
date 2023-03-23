@@ -1,8 +1,10 @@
 package com.feng.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.feng.mapper.WorkTypeMapper;
 import com.feng.pojo.Staff;
 import com.feng.mapper.StaffMapper;
+import com.feng.pojo.WorkType;
 import com.feng.service.StaffService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
 
     @Autowired
     private StaffMapper staffMapper;
+
+    @Autowired
+    private WorkTypeMapper workTypeMapper;
 
     @Override
     public int isStaffExistByid(String  staffId) {
@@ -88,5 +93,16 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     @Override
     public int clearStaffOrderById(String staffId) {
         return staffMapper.clearStaffOrderByid(staffId);
+    }
+
+    @Override
+    public String queryPwdById(String staffId) {
+        QueryWrapper<WorkType> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("work_type_name","店长");
+        WorkType workType = workTypeMapper.selectOne(wrapper1);
+
+        QueryWrapper<Staff> wrapper = new QueryWrapper<>();
+        wrapper.eq("staff_id",staffId).eq("work_type_id",workType.getWorkTypeId());
+        return staffMapper.selectOne(wrapper).getStaffPwd();
     }
 }

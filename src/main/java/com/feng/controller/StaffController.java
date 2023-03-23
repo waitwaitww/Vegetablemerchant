@@ -103,5 +103,17 @@ public class StaffController {
         msg.setResult(i);
         return jsonUtil.getJson(msg);
     }
+
+    @RequestMapping(value = "/login",produces = "application/json;charset=utf-8")
+    public String login(@RequestParam("staffId")String staffId,@RequestParam("staffPwd")String staffPwd){
+        Msg msg = new Msg();
+        String pwd = staffService.queryPwdById(staffId);
+        if (staffPwd.equals(pwd)){
+            msg.setResult("登陆成功");
+        }else {
+            msg.setResult("用户名或密码错误！");
+        }
+        return jsonUtil.getJson(msg);
+    }
 }
 
