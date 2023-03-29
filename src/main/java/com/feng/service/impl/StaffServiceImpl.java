@@ -65,6 +65,11 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
     }
 
     @Override
+    public int countStaff() {
+        return staffMapper.selectList(null).size();
+    }
+
+    @Override
     public List<Staff> queryStaffByType(String typeId) {
         QueryWrapper<Staff> wrapper = new QueryWrapper<>();
         wrapper.eq("work_type_id",typeId);

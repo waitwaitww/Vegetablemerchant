@@ -2,19 +2,25 @@ package com.feng.controller;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.feng.pojo.Msg;
 import com.feng.pojo.Staff;
 import com.feng.service.StaffService;
 import com.feng.util.jsonUtil;
-import org.apache.naming.factory.MailSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.soap.SAAJResult;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -38,6 +44,30 @@ public class StaffController {
         List<Staff> staffList = staffService.queryAllStaff();
         msg.setResult(staffList);
         return jsonUtil.getJson(msg);
+    }
+
+    //分页查询
+    @RequestMapping(value = "/findStaffPage", produces = "application/json;charset=utf-8")
+    public  IPage<Staff> findStaffPage(@RequestParam("pageNum")int pageNum,@RequestParam("pageSize")int pageSize,
+                                @RequestParam("staffName")String staffName){
+        IPage<Staff> page = new Page<>(pageNum,pageSize);
+        QueryWrapper<Staff> wrapper = new QueryWrapper<>();
+        wrapper.like("waiter_name",staffName);
+        IPage page1 = staffService.page(page, wrapper);
+        return page1;
+
+    }
+
+    //分页查询
+    @RequestMapping(value = "/findStaffPageforType", produces = "application/json;charset=utf-8")
+    public  IPage<Staff> findStaffPageforType(@RequestParam("pageNum")int pageNum,@RequestParam("pageSize")int pageSize,
+                                       @RequestParam("staffName")String staffName,@RequestParam("workTypeId")String workTypeId){
+        IPage<Staff> page = new Page<>(pageNum,pageSize);
+        QueryWrapper<Staff> wrapper = new QueryWrapper<>();
+        wrapper.eq("work_type_id",workTypeId).like("waiter_name",staffName);
+        IPage page1 = staffService.page(page, wrapper);
+        return page1;
+
     }
 
     @RequestMapping(value = "/querySomeStaff",produces = "application/json;charset=utf-8")
@@ -73,21 +103,30 @@ public class StaffController {
         return jsonUtil.getJson(msg);
     }
 
+//    @RequestMapping(value = "/findStaffPage",produces = "application/json;charset=utf-8")
+//    public IPage<Staff> findStaffPage(@RequestParam("pageSize")int pageSize,
+//                                @RequestParam("pageNum")int pageNum,
+//                                @RequestParam("staffName")String waiterName){
+//        IPage<Staff> page = new Page<>();
+//        QueryWrapper<Staff> wrapper = new QueryWrapper<>();
+//        wrapper.like("waiter_name",waiterName);
+//        IPage<Staff> staffIPage = staffService.page(page, wrapper);
+//        return staffIPage;
+//    }
+
     @RequestMapping(value = "/addStaff",produces = "application/json;charset=utf-8")
-    public String addStaff(@RequestParam("staffTelephone")String staffTelephone,@RequestParam("basePay") float basePay,
-                           @RequestParam("sex")String sex,@RequestParam("waiterName")String waiterName,
-                           @RequestParam("workTypeId")String workTypeId,@RequestParam("staffPwd")String staffPwd){
+    public String addStaff(@RequestBody()Staff staff1){
         Staff staff = new Staff();
 
-        staff.setBasePay(basePay);
+        staff.setBasePay(staff1.getBasePay());
         staff.setOrderQuantity(0);
         staff.setComplain(0);
         staff.setEmploymentDate(DateUtil.date());
-        staff.setSex(sex);
-        staff.setStaffPwd(staffPwd);
-        staff.setStaffTelephone(staffTelephone);
-        staff.setWaiterName(waiterName);
-        staff.setWorkTypeId(workTypeId);
+        staff.setSex(staff1.getSex());
+        staff.setStaffPwd("12345678");
+        staff.setStaffTelephone(staff1.getStaffTelephone());
+        staff.setWaiterName(staff1.getWaiterName());
+        staff.setWorkTypeId(staff1.getWorkTypeId());
         staff.setStaffId(staff.getStaffTelephone());
 
         Msg msg = new Msg();

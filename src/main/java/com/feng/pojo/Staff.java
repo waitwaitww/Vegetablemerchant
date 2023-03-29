@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ public class Staff implements Serializable {
 
     private String workTypeId;
 
+    @JsonIgnore
     private String staffPwd;
 
     private Integer orderQuantity;

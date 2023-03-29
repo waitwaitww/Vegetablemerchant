@@ -30,6 +30,9 @@ public interface StaffService extends IService<Staff> {
     //查询所有员工
     List<Staff> queryAllStaff();
 
+    //查询员工数量
+    int countStaff();
+
     //查询某一类员工
     List<Staff> queryStaffByType(String typeId);
 

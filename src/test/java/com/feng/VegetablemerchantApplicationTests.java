@@ -35,7 +35,7 @@ class VegetablemerchantApplicationTests {
         staff.setSex("男");
         staff.setStaffPwd("33213fa");
         staff.setStaffTelephone("15756565656");
-        staff.setWaiterName("路人已");
+        staff.setWaiterName("路人丙");
         staff.setWorkTypeId("90003");
         staff.setStaffId(staff.getStaffTelephone());
         int i = staffService.addStaff(staff);

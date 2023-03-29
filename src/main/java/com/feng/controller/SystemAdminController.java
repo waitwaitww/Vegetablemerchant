@@ -5,10 +5,14 @@ import com.feng.pojo.Msg;
 import com.feng.service.SystemAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -27,11 +31,11 @@ public class SystemAdminController {
     private SystemAdminService systemAdminService;
 
     @RequestMapping(value = "/login" ,produces = "application/json;charset=utf-8" )
-    public String adminLogin(@RequestParam("adminId")String adminId,@RequestParam("adminPwd")String adminPwd){
+    public String adminLogin(@RequestBody Map<String,Object> param){
         Msg msg = new Msg();
         msg.setResult("false");
-        String pwd = systemAdminService.queryAdminPwdByAid(adminId);
-        if(pwd.equals(adminPwd)){
+        String pwd = systemAdminService.queryAdminPwdByAid((String) param.get("adminId"));
+        if(pwd.equals(param.get("adminPwd"))){
             msg.setResult("true");
         }
         return msg.getResult().toString();
