@@ -2,6 +2,8 @@ package com.feng.controller;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,6 +11,7 @@ import com.feng.pojo.Msg;
 import com.feng.pojo.Staff;
 import com.feng.service.StaffService;
 import com.feng.util.jsonUtil;
+import com.feng.view.pay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.SAAJResult;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +61,7 @@ public class StaffController {
         IPage<Staff> page = new Page<>(pageNum,pageSize);
         QueryWrapper<Staff> wrapper = new QueryWrapper<>();
         wrapper.like("waiter_name",staffName);
+        wrapper.orderByDesc("employment_date");
         IPage page1 = staffService.page(page, wrapper);
         return page1;
 
@@ -65,6 +74,7 @@ public class StaffController {
         IPage<Staff> page = new Page<>(pageNum,pageSize);
         QueryWrapper<Staff> wrapper = new QueryWrapper<>();
         wrapper.eq("work_type_id",workTypeId).like("waiter_name",staffName);
+        wrapper.orderByDesc("employment_date");
         IPage page1 = staffService.page(page, wrapper);
         return page1;
 
@@ -88,17 +98,51 @@ public class StaffController {
 
 
     @RequestMapping(value = "/statementAllStaff",produces = "application/json;charset=utf-8")
-    public String statementAllStaff(){
+    public String statementAllStaff() throws Exception {
+        List<pay> pays = staffService.queryAllPay();
+        ExcelWriter writer = ExcelUtil.getWriter("c:/Users/杨/Desktop/桌面文件/毕设/Vegetablemerchant/export/test.xlsx");
+        writer.addHeaderAlias("waiterName","员工姓名");
+        writer.addHeaderAlias("orderQuantity","完成订单");
+        writer.addHeaderAlias("complain","投诉");
+        writer.addHeaderAlias("basePay","底薪");
+        writer.addHeaderAlias("salary","总工资");
+
+//        writer.write(pays,true);
+
+//        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+//        String fileName = URLEncoder.encode("薪资信息","UTF-8");
+//        response.setHeader("Content-Disposition","attachment;filename="+fileName+".xlsx");
+
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        writer.flush(outputStream,true);
+//        outputStream.close();
+
+        writer.merge(4,"员工薪资");
+        writer.write(pays,true);
+        writer.close();
+
         Msg msg = new Msg();
         int i = staffService.clearAllStaffOrder();
         msg.setResult(i);
         return jsonUtil.getJson(msg);
     }
 
-    @RequestMapping(value = "/statementOneStaff",produces = "application/json;charset=utf-8")
-    public String statementOneStaff(@RequestParam("waiterId")String waiterId){
+    @RequestMapping(value = "/statementBatchStaff",produces = "application/json;charset=utf-8")
+    public String statementBatchStaff(@RequestBody List<String > staffIds){
         Msg msg = new Msg();
-        int i = staffService.clearStaffOrderById(waiterId);
+        int i = 0;
+        for (String staffId: staffIds) {
+            staffService.clearStaffOrderById(staffId);
+            i++;
+        }
+        msg.setResult(i);
+        return jsonUtil.getJson(msg);
+    }
+
+    @RequestMapping(value = "/statementOneStaff",produces = "application/json;charset=utf-8")
+    public String statementOneStaff(@RequestParam("waiterId")String staffId){
+        Msg msg = new Msg();
+        int i = staffService.clearStaffOrderById(staffId);
         msg.setResult(i);
         return jsonUtil.getJson(msg);
     }
@@ -131,6 +175,27 @@ public class StaffController {
 
         Msg msg = new Msg();
         int i = staffService.addStaff(staff);
+        msg.setResult(i);
+        return jsonUtil.getJson(msg);
+    }
+
+    @RequestMapping(value = "/updateStaff",produces = "application/json;charset=utf-8")
+    public String updateStaff(@RequestBody()Staff staff1){
+        Staff staff = new Staff();
+
+        staff.setBasePay(staff1.getBasePay());
+        staff.setOrderQuantity(0);
+        staff.setComplain(0);
+        staff.setEmploymentDate(DateUtil.date());
+        staff.setSex(staff1.getSex());
+        staff.setStaffPwd("12345678");
+        staff.setStaffTelephone(staff1.getStaffTelephone());
+        staff.setWaiterName(staff1.getWaiterName());
+        staff.setWorkTypeId(staff1.getWorkTypeId());
+        staff.setStaffId(staff.getStaffTelephone());
+
+        Msg msg = new Msg();
+        int i = staffService.updateStaff(staff);
         msg.setResult(i);
         return jsonUtil.getJson(msg);
     }

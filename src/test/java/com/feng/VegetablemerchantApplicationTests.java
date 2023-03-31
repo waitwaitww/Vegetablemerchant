@@ -9,6 +9,7 @@ import com.feng.service.FoodService;
 import com.feng.service.StaffService;
 import com.feng.service.SystemAdminService;
 import com.feng.service.WorkTypeService;
+import com.feng.view.pay;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,6 +58,13 @@ class VegetablemerchantApplicationTests {
         workTypeService.addWorkType(workType);
         List<WorkType> workTypes = workTypeService.queryAllWorkType();
         workTypes.forEach(System.out::println);
+    }
+
+
+    @Test
+    void test2(){
+        List<pay> pays = staffService.queryAllPay();
+        pays.forEach(System.out::println);
     }
 
 

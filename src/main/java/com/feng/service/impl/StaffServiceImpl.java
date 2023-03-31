@@ -7,6 +7,7 @@ import com.feng.mapper.StaffMapper;
 import com.feng.pojo.WorkType;
 import com.feng.service.StaffService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.feng.view.pay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,15 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
         QueryWrapper<Staff> wrapper = new QueryWrapper<>();
         wrapper.eq("work_type_id",typeId);
         return staffMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<pay> queryAllPay() {
+        List<pay> pays = staffMapper.queryAllPay();
+        for (pay pay:pays) {
+            pay.countSalary();
+        }
+        return pays;
     }
 
     @Override
