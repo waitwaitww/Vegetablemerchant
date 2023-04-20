@@ -2,13 +2,14 @@ package com.feng;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.feng.pojo.Food;
 import com.feng.pojo.Staff;
 import com.feng.pojo.WorkType;
-import com.feng.service.FoodService;
-import com.feng.service.StaffService;
-import com.feng.service.SystemAdminService;
-import com.feng.service.WorkTypeService;
+import com.feng.service.*;
+import com.feng.view.foodDto;
 import com.feng.view.pay;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,23 @@ class VegetablemerchantApplicationTests {
     void test2(){
         List<pay> pays = staffService.queryAllPay();
         pays.forEach(System.out::println);
+    }
+
+    @Autowired
+    @Qualifier("FoodServiceImpl")
+    private FoodService foodService;
+    @Autowired
+    @Qualifier("FoodDtoServiceImpl")
+    private FoodDtoService FoodDtoService;
+
+    @Test
+    void test3(){
+        IPage<foodDto> page = new Page<>(0,2);
+        QueryWrapper<foodDto> wrapper = new QueryWrapper<>();
+        wrapper.like("food_name","");
+        IPage page1 = FoodDtoService.page(page, wrapper);
+        System.out.println(page1.toString());
+
     }
 
 

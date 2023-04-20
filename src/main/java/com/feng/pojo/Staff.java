@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,6 +45,7 @@ public class Staff implements Serializable {
 
     private Integer complain;
 
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date employmentDate;
 
     private String waiterName;

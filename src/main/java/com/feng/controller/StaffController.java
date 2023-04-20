@@ -64,7 +64,6 @@ public class StaffController {
         wrapper.orderByDesc("employment_date");
         IPage page1 = staffService.page(page, wrapper);
         return page1;
-
     }
 
     //分页查询
@@ -209,10 +208,10 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/login",produces = "application/json;charset=utf-8")
-    public String login(@RequestParam("staffId")String staffId,@RequestParam("staffPwd")String staffPwd){
+    public String login(@RequestBody Map<String,Object> param){
         Msg msg = new Msg();
-        String pwd = staffService.queryPwdById(staffId);
-        if (staffPwd.equals(pwd)){
+        String pwd = staffService.queryPwdById((String) param.get("staffId"));
+        if (pwd != null && param.get("staffPwd").equals(pwd)){
             msg.setResult("登陆成功");
         }else {
             msg.setResult("用户名或密码错误！");

@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Msg {
     private Object result;
+    private String m;
+    private String code;
 }

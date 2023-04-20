@@ -7,6 +7,7 @@ import com.feng.service.FoodTypeService;
 import com.feng.util.jsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,18 +40,18 @@ public class FoodTypeController {
     }
 
     @RequestMapping(value = "/queryFoodTypeByTypeId",produces = "application/json;charset=utf-8")
-    public String queryFoodTypeByTypeId(@RequestParam("foodTypeId")String foodTypeId){
+    public String queryFoodTypeByTypeId(@RequestParam("typeId")String typeId){
         Msg msg = new Msg();
-        String s = foodTypeService.queryNameByid(foodTypeId);
+        String s = foodTypeService.queryNameByid(typeId);
         msg.setResult(s);
         return jsonUtil.getJson(msg);
     }
 
     @RequestMapping(value = "/addFoodType",produces = "application/json;charset=utf-8")
-    public String addFoodType(@RequestParam("foodTypeName")String foodTypeName){
+    public String addFoodType(@RequestBody()FoodType foodType1){
         Msg msg = new Msg();
         FoodType foodType = new FoodType();
-        foodType.setTypeName(foodTypeName);
+        foodType.setTypeName(foodType1.getTypeName());
         int i = foodTypeService.addType(foodType);
         msg.setResult(i);
         return jsonUtil.getJson(msg);
@@ -58,9 +59,9 @@ public class FoodTypeController {
 
 
     @RequestMapping(value = "/deleteFoodType",produces = "application/json;charset=utf-8")
-    public String deleteFoodType(@RequestParam("foodTypeId")String foodTypeId){
+    public String deleteFoodType(@RequestParam("typeId")String typeId){
         Msg msg = new Msg();
-        int delete = foodTypeService.delete(foodTypeId);
+        int delete = foodTypeService.delete(typeId);
         msg.setResult(delete);
         return jsonUtil.getJson(msg);
     }

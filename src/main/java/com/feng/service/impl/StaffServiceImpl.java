@@ -118,6 +118,10 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
 
         QueryWrapper<Staff> wrapper = new QueryWrapper<>();
         wrapper.eq("staff_id",staffId).eq("work_type_id",workType.getWorkTypeId());
-        return staffMapper.selectOne(wrapper).getStaffPwd();
+        Staff staff = staffMapper.selectOne(wrapper);
+        if(staff != null){
+            return staff.getStaffPwd();
+        }
+        return null;
     }
 }

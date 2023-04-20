@@ -2,6 +2,8 @@ package com.feng.service;
 
 import com.feng.pojo.Food;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.feng.view.foodDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -37,7 +39,10 @@ public interface FoodService extends IService<Food> {
     int groundingFood(String foodId);
 
     //查找全部菜品
-    List<Food> queryAllFood();
+    List<foodDto> queryAllFood(String foodName, int isSeasonal,int foodState, int pageSize,int pageNum);
+
+    //无论是否应季
+    List<foodDto> queryAllFood(String foodName, int foodState, int pageSize,int pageNum);
 
     //查询所有已上架的菜品
     List<Food> queryAllGrFood();

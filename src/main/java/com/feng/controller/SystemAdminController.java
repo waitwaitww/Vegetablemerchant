@@ -34,8 +34,9 @@ public class SystemAdminController {
     public String adminLogin(@RequestBody Map<String,Object> param){
         Msg msg = new Msg();
         msg.setResult("false");
+
         String pwd = systemAdminService.queryAdminPwdByAid((String) param.get("adminId"));
-        if(pwd.equals(param.get("adminPwd"))){
+        if (pwd != null &&pwd.equals(param.get("adminPwd"))){
             msg.setResult("true");
         }
         return msg.getResult().toString();

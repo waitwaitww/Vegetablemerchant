@@ -5,6 +5,7 @@ import com.feng.pojo.Food;
 import com.feng.mapper.FoodMapper;
 import com.feng.service.FoodService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.feng.view.foodDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -62,9 +63,14 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
     }
 
     @Override
-    public List<Food> queryAllFood() {
+    public List<foodDto> queryAllFood(String foodName, int isSeasonal,int foodState, int pageSize,int pageNum) {
 
-        return foodMapper.selectList(null);
+        return foodMapper.queryALlFoodDto(foodName,isSeasonal,foodState,pageSize,pageNum);
+    }
+
+    @Override
+    public List<foodDto> queryAllFood(String foodName, int foodState, int pageSize, int pageNum) {
+        return foodMapper.queryALlFoodDtosea(foodName,foodState,pageSize,pageNum);
     }
 
     @Override

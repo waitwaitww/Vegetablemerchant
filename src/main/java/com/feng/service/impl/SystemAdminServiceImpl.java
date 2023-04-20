@@ -25,6 +25,12 @@ public class SystemAdminServiceImpl extends ServiceImpl<SystemAdminMapper, Syste
 
     @Override
     public String queryAdminPwdByAid(String  adminId) {
-        return adminMapper.selectById(adminId).getAdminPwd();
+        SystemAdmin systemAdmin = adminMapper.selectById(adminId);
+
+        if (systemAdmin != null){
+            return systemAdmin.getAdminPwd();
+        }
+        return null;
+
     }
 }

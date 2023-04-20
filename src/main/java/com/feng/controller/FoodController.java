@@ -1,13 +1,21 @@
 package com.feng.controller;
 
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.feng.pojo.Food;
 import com.feng.pojo.Msg;
+import com.feng.pojo.Staff;
+import com.feng.service.FoodDtoService;
 import com.feng.service.FoodService;
 import com.feng.util.jsonUtil;
+import com.feng.view.foodDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,12 +41,38 @@ public class FoodController {
     @Qualifier("FoodServiceImpl")
     private FoodService foodService;
 
+    @Autowired
+    @Qualifier("FoodDtoServiceImpl")
+    private FoodDtoService foodDtoService;
+
     @RequestMapping(value = "/queryAllFood",produces = "application/json;charset=utf-8")
     public String queryAllFood(){
         Msg msg = new Msg();
-        List<Food> food = foodService.queryAllFood();
+        List<foodDto> food = foodService.queryAllFood("",0,2,0);
         msg.setResult(food);
         return jsonUtil.getJson(msg);
+    }
+
+    @RequestMapping(value = "/findfoodPage", produces = "application/json;charset=utf-8")
+    public IPage<foodDto> findfoodPage(@RequestParam("pageNum")int pageNum, @RequestParam("pageSize")int pageSize,
+                                      @RequestParam("foodName")String foodName){
+        IPage<foodDto> page = new Page<>(pageNum,pageSize);
+        QueryWrapper<foodDto> wrapper = new QueryWrapper<>();
+        wrapper.like("food_name",foodName);
+        wrapper.orderByDesc("type_id");
+        IPage page1 = foodDtoService.page(page, wrapper);
+        return page1;
+    }
+
+    @RequestMapping(value = "/findundercarriageFoodPage", produces = "application/json;charset=utf-8")
+    public IPage<foodDto> findundercarriageFoodPage(@RequestParam("pageNum")int pageNum, @RequestParam("pageSize")int pageSize,
+                                       @RequestParam("foodName")String foodName){
+        IPage<foodDto> page = new Page<>(pageNum,pageSize);
+        QueryWrapper<foodDto> wrapper = new QueryWrapper<>();
+        wrapper.like("food_name",foodName).eq("food_state",1);
+        wrapper.orderByDesc("type_id");
+        IPage page1 = foodDtoService.page(page, wrapper);
+        return page1;
     }
 
     @RequestMapping(value = "/queryAllGrFood",produces = "application/json;charset=utf-8")
@@ -140,58 +174,43 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/addFood",produces = "application/json;charset=utf-8")
-    public String addFood(@RequestParam("foodTypeId")String foodTypeId,
-                          @RequestParam("foodName")String foodName,
-                          @RequestParam("foodAlias")String foodAlias,
-                          @RequestParam("foodSpecifications") String foodSpecifications,
-                          @DateTimeFormat(pattern = "yyyy-MM-dd")
-                              @RequestParam("manufactureDate") Date manufactureDate,
-                          @DateTimeFormat(pattern = "yyyy-MM-dd")
-                              @RequestParam("validDate")Date validDate,
-                          @RequestParam("unitPrice")float unitPrice,
-                          @RequestParam("defualtImage")String defualtImage){
+    public String addFood(@RequestBody()Food food1){
         Msg msg = new Msg();
         Food food = new Food();
-        food.setFoodName(foodName);
-        food.setDefaultImage(defualtImage);
-        food.setFoodAlias(foodAlias);
-        food.setFoodSpecifications(foodSpecifications);
+        food.setFoodId(food1.getFoodId());
+        food.setFoodName(food1.getFoodName());
+        food.setDefaultImage(food1.getDefaultImage());
+        food.setFoodAlias(food1.getFoodAlias());
+        food.setFoodSpecifications(food1.getFoodSpecifications());
         food.setFoodState(0);
-        food.setIsSeasonal(0);
-        food.setTypeId(foodTypeId);
-        food.setManufactureDate(manufactureDate);
-        food.setValidDate(validDate);
-        food.setUnitPrice(unitPrice);
+        food.setIsSeasonal(food1.getIsSeasonal());
+        food.setTypeId(food1.getTypeId());
+        food.setManufactureDate(food1.getManufactureDate());
+        food.setValidDate(food1.getValidDate());
+        food.setUnitPrice(food1.getUnitPrice());
         int i = foodService.addFood(food);
         msg.setResult(i);
         return jsonUtil.getJson(msg);
     }
 
+
+
+
     @RequestMapping(value = "/updateFood",produces = "application/json;charset=utf-8")
-    public String updateFood(@RequestParam("foodId")String foodId,
-                             @RequestParam("foodTypeId")String foodTypeId,
-                             @RequestParam("foodName")String foodName,
-                             @RequestParam("foodAlias")String foodAlias,
-                             @RequestParam("foodSpecifications") String foodSpecifications,
-                             @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                 @RequestParam("manufactureDate") Date manufactureDate,
-                             @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                 @RequestParam("validDate")Date validDate,
-                             @RequestParam("unitPrice")float unitPrice,
-                             @RequestParam("defualtImage")String defualtImage){
+    public String updateFood(@RequestBody()Food food1){
         Msg msg = new Msg();
         Food food = new Food();
-        food.setFoodId(foodId);
-        food.setFoodName(foodName);
-        food.setDefaultImage(defualtImage);
-        food.setFoodAlias(foodAlias);
-        food.setFoodSpecifications(foodSpecifications);
-        food.setFoodState(0);
-        food.setIsSeasonal(0);
-        food.setTypeId(foodTypeId);
-        food.setManufactureDate(manufactureDate);
-        food.setValidDate(validDate);
-        food.setUnitPrice(unitPrice);
+        food.setFoodId(food1.getFoodId());
+        food.setFoodName(food1.getFoodName());
+        food.setDefaultImage(food1.getDefaultImage());
+        food.setFoodAlias(food1.getFoodAlias());
+        food.setFoodSpecifications(food1.getFoodSpecifications());
+        food.setFoodState(food1.getFoodState());
+        food.setIsSeasonal(food1.getIsSeasonal());
+        food.setTypeId(food1.getTypeId());
+        food.setManufactureDate(food1.getManufactureDate());
+        food.setValidDate(food1.getValidDate());
+        food.setUnitPrice(food1.getUnitPrice());
         int i = foodService.updateFood(food);
         msg.setResult(i);
         return jsonUtil.getJson(msg);
