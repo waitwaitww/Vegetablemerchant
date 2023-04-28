@@ -55,4 +55,7 @@ public interface StaffService extends IService<Staff> {
     //根据id查询店长密码
     String queryPwdById(String staffId);
 
+    //员工完成一个订单
+    int finish(String staffId);
+
 }

@@ -13,39 +13,32 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * consumer
+ * 
  * </p>
  *
  * @author yang
- * @since 2023-03-17
+ * @since 2023-04-24
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Consumer implements Serializable {
+public class ShopingCar implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID=1L;
 
-    @TableId(value = "consumer_id", type = IdType.INPUT)
+    /**
+     * 购物车id
+     */
+      @TableId(value = "car_id", type = IdType.INPUT)
+    private String carId;
+
     private String consumerId;
 
-    private String consumerPwd;
+    private int foodnum;
 
-    private String consumerName;
-
-    private String consumerTelephone;
-
-    private String address1;
-
-    private String address2;
-
-    private String address3;
-
-    private Integer isvip;
-
-    private Float consumerWallet;
+    private float totalprice;
 
 
 }

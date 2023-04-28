@@ -1,5 +1,6 @@
 package com.feng.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.feng.pojo.FoodType;
 import com.feng.mapper.FoodTypeMapper;
 import com.feng.service.FoodTypeService;
@@ -42,6 +43,8 @@ public class FoodTypeServiceImpl extends ServiceImpl<FoodTypeMapper, FoodType> i
 
     @Override
     public List<FoodType> queryAllFoodType() {
+        QueryWrapper<FoodType> foodTypeQueryWrapper = new QueryWrapper<>();
+        foodTypeQueryWrapper.orderByAsc("food_id");
         return foodTypeMapper.selectList(null);
     }
 }

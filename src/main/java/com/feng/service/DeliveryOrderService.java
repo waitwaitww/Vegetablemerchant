@@ -45,4 +45,7 @@ public interface DeliveryOrderService extends IService<DeliveryOrder> {
     //查询某用户所有完成的派送单
     List<DeliveryOrder> queryEndOrderByConsumerId(String consumerId);
 
+    //查询当前订单最少的配送员
+    String findStaffIdByCount();
+
 }

@@ -1,7 +1,10 @@
 package com.feng.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.feng.mapper.FoodDishMapper;
 import com.feng.pojo.Dish;
 import com.feng.mapper.DishMapper;
+import com.feng.pojo.FoodDish;
 import com.feng.service.DishService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     @Autowired
     private DishMapper dishMapper;
 
+    @Autowired
+    private FoodDishMapper foodDishMapper;
+
     @Override
     public int addDish(Dish dish) {
         return dishMapper.insert(dish);
@@ -32,6 +38,11 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Override
     public int deleteDish(String dishId) {
+
+        QueryWrapper<FoodDish> w = new QueryWrapper<>();
+        w.eq("dish_id",dishId);
+        foodDishMapper.delete(w);
+
         return dishMapper.deleteById(dishId);
     }
 

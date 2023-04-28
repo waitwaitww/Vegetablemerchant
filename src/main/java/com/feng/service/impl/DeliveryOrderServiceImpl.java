@@ -1,5 +1,6 @@
 package com.feng.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.feng.pojo.DeliveryOrder;
 import com.feng.mapper.DeliveryOrderMapper;
@@ -54,6 +55,7 @@ public class DeliveryOrderServiceImpl extends ServiceImpl<DeliveryOrderMapper, D
     public int setOrderEnd(String orderId) {
         DeliveryOrder deliveryOrder = deliveryOrderMapper.selectById(orderId);
         deliveryOrder.setOrderState(2);
+        deliveryOrder.setOrderCompletionTime(DateTime.now());
         return deliveryOrderMapper.updateById(deliveryOrder);
     }
 
@@ -85,5 +87,10 @@ public class DeliveryOrderServiceImpl extends ServiceImpl<DeliveryOrderMapper, D
     @Override
     public List<DeliveryOrder> queryEndOrderByConsumerId(String consumerId) {
         return deliveryOrderMapper.queryEndOrderByConsumerId(consumerId);
+    }
+
+    @Override
+    public String findStaffIdByCount() {
+        return deliveryOrderMapper.findStaffIdByCount();
     }
 }

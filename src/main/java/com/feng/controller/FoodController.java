@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.MacSpi;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -48,8 +50,10 @@ public class FoodController {
     @RequestMapping(value = "/queryAllFood",produces = "application/json;charset=utf-8")
     public String queryAllFood(){
         Msg msg = new Msg();
-        List<foodDto> food = foodService.queryAllFood("",0,2,0);
+        List<foodDto> food = foodDtoService.list();
         msg.setResult(food);
+        int size = food.size();
+        msg.setCount(size);
         return jsonUtil.getJson(msg);
     }
 
@@ -108,9 +112,9 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/queryGrFoodByType",produces = "application/json;charset=utf-8")
-    public String queryGrFoodByType(@RequestParam("foodTypeId")String foodTypeId){
+    public String queryGrFoodByType(@RequestBody() Map param){
         Msg msg = new Msg();
-        List<Food> food = foodService.queryGrFoodByType(foodTypeId);
+        List<Food> food = foodService.queryGrFoodByType((String) param.get("foodTypeId"));
         msg.setResult(food);
         return jsonUtil.getJson(msg);
     }
@@ -213,6 +217,15 @@ public class FoodController {
         food.setUnitPrice(food1.getUnitPrice());
         int i = foodService.updateFood(food);
         msg.setResult(i);
+        return jsonUtil.getJson(msg);
+    }
+
+    @RequestMapping(value = "/queryFoodByFoodId",produces = "application/json;charset=utf-8")
+    public String queryFoodByFoodId(@RequestBody()Map param){
+        Msg msg = new Msg();
+        foodDto food = foodDtoService.getById((String) param.get("foodId"));
+        msg.setResult(food);
+        if (food == null)   msg.setCode("0");
         return jsonUtil.getJson(msg);
     }
 }

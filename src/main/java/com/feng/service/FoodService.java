@@ -23,6 +23,8 @@ public interface FoodService extends IService<Food> {
     //删除菜品
     int deleteFoodByFoodId(String foodId);
 
+    String queryFoodName(String foodId);
+
     //修改菜品
     int updateFood(Food food);
 

@@ -218,5 +218,21 @@ public class StaffController {
         }
         return jsonUtil.getJson(msg);
     }
+
+    @RequestMapping(value = "/staffLogin",produces = "application/json;charset=utf-8")
+    public String staffLogin(@RequestBody Map<String,Object> param){
+        Msg msg = new Msg();
+        Staff staff = staffService.getById((String) param.get("staffId"));
+        String pwd = staff.getStaffPwd();
+        if (pwd != null && param.get("staffPwd").equals(pwd)){
+            msg.setResult(staff);
+            msg.setM("登录成功");
+        }else {
+            msg.setM("用户名或密码错误！");
+        }
+        return jsonUtil.getJson(msg);
+    }
+
+
 }
 

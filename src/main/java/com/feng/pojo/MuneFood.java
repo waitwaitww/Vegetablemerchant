@@ -28,7 +28,7 @@ public class MuneFood implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "menu_id", type = IdType.AUTO)
+    @TableId(value = "menu_id", type = IdType.INPUT)
     private String menuId;
 
     private String foodId;

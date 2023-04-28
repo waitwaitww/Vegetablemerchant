@@ -9,7 +9,9 @@ import com.feng.pojo.Food;
 import com.feng.pojo.Staff;
 import com.feng.pojo.WorkType;
 import com.feng.service.*;
+import com.feng.view.carDto;
 import com.feng.view.foodDto;
+import com.feng.view.menuDto;
 import com.feng.view.pay;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +87,25 @@ class VegetablemerchantApplicationTests {
 
     }
 
+    @Autowired
+    @Qualifier("MenuDtoServiceImpl")
+    private MenuDtoService menuDtoService;
+
+    @Test
+    void test4(){
+        List<menuDto> list = menuDtoService.list();
+        list.forEach(System.out::println);
+    }
+
+
+    @Autowired
+    @Qualifier("CarDtoServiceImpl")
+    private CarDtoService carDtoService;
+
+    @Test
+    void test5(){
+        List<carDto> list = carDtoService.list();
+        list.forEach(System.out::println);
+    }
 
 }

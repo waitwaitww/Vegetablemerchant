@@ -38,6 +38,11 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
     }
 
     @Override
+    public String queryFoodName(String foodId) {
+        return foodMapper.selectById(foodId).getFoodName();
+    }
+
+    @Override
     public int updateFood(Food food) {
         return foodMapper.updateById(food);
     }
@@ -76,7 +81,7 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
     @Override
     public List<Food> queryAllGrFood() {
         QueryWrapper<Food> wrapper = new QueryWrapper<>();
-        wrapper.eq("food_state", 0);
+        wrapper.eq("food_state", 0).orderByAsc("type_id");
         return foodMapper.selectList(wrapper);
     }
 

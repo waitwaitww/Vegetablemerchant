@@ -30,4 +30,7 @@ public interface DeliveryOrderMapper extends BaseMapper<DeliveryOrder> {
     @Select("select * from delivery_order where order_state = 2 and menu_id = (select menu_id from menu where consumer_id = #{consumerId} and order_id is Not Null)")
     List<DeliveryOrder> queryEndOrderByConsumerId(@Param("consumerId") String consumrId);
 
+    @Select("select staff_id from delivery_order group by staff_id having count(staff_id) = (select min(mycount) from (select staff_id, count(staff_id) mycount from delivery_order where order_state = 1 group by staff_id) as a) limit 1")
+    String findStaffIdByCount();
+
 }

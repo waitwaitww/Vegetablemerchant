@@ -124,4 +124,11 @@ public class StaffServiceImpl extends ServiceImpl<StaffMapper, Staff> implements
         }
         return null;
     }
+
+    @Override
+    public int finish(String staffId) {
+        Staff staff = staffMapper.selectById(staffId);
+        staff.setOrderQuantity(staff.getOrderQuantity()+1);
+        return staffMapper.updateById(staff);
+    }
 }

@@ -1,5 +1,6 @@
 package com.feng.view;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class foodDto {
 
+    @TableId(value = "food_id")
     private String foodId;
 
     private String foodName;
